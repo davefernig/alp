@@ -21,7 +21,8 @@ class ActiveLearner(object):
     output distributions have the most entropy).
 
     It also implements two types of query by committee: vote entropy (query
-    points where the entropy between ) and average kl divergence ()
+    instances where the entropy amongst votes is maximized) and average kl
+    divergence (query instances of max kl divergence from the consensus).
 
     Parameters
     ----------
@@ -30,7 +31,7 @@ class ActiveLearner(object):
         percentage of unlabeled point, int for rank n unlabeled points.
 
     strategy : 'entropy', 'least_confident', 'max_margin', 'vote_entropy',
-        'average_kl_divergence', default='entropy'
+        'average_kl_divergence', default='least_confident'
         Strategy for ranking unlabeled points as canditates for querying.
     """
 
@@ -49,7 +50,7 @@ class ActiveLearner(object):
         'representation',
     ]
 
-    def __init__(self, strategy='entropy'):
+    def __init__(self, strategy='least_confident'):
         self.strategy = strategy
 
     def rank(self, clf, X_unlabeled, num_queries=None):
