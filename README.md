@@ -10,6 +10,6 @@ it, that's great.
   <img src="misc/20ng.jpg" alt=""/>
 </p>
 
-I did this while working through Burr Settles'
+I did this while working through Burr Settles' excellent
 [excellent literature survey](http://burrsettles.com/pub/settles.activelearning.pdf).
-If you are interested in this topic you should definitely read it! 
+If you're interested in this topic you should read it. 
