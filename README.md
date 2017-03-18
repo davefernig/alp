@@ -11,5 +11,5 @@ it, that's great.
 </p>
 
 I did this while working through Burr Settles' excellent
-[excellent literature survey](http://burrsettles.com/pub/settles.activelearning.pdf).
+[literature survey](http://burrsettles.com/pub/settles.activelearning.pdf).
 If you're interested in this topic you should read it. 
