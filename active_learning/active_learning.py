@@ -46,12 +46,37 @@ class ActiveLearner(object):
         'average_kl_divergence',
     ]
 
-    _representation_sampling_frameworks = [
-        'representation',
-    ]
-
     def __init__(self, strategy='least_confident'):
         self.strategy = strategy
+
+    def rank_and_refit(self, clf, X_labeled, y_labeled, X_unlabeled, y_oracle,
+                       batch_size=10, num_batches=10)
+        """Iteratively rank unlabeled instances as querying candidates,
+        query the oracle, and refit the classifier.
+
+        Parameters
+        ----------
+        clf : classifier
+            Pre-trained probabilistic classifier conforming to the sklearn
+            interface.
+
+        X_unlabeled : sparse matrix, [n_samples, n_features]
+            Unlabeled training instances.
+
+        y_oracle : sparse matrix, [n_samples, n_features]
+            Unlabeled training instances.
+
+        Returns
+        -------
+        rankings : ndarray, shape (num_queries,)
+            cluster labels
+        """
+        clf.fit(X_labeled, y_labeled)
+        for _ in range(num_batches):
+            idx = self.rank(clf, X_unlabeled, batch_size)
+            X_augmented = vstack((X_labeled, X_unlabeled[idx, :]))
+            y_augmented = np.concatenate((y_labeled, y_oracle[idx]))
+            clf.fit(X_augmented, y_augmented)
 
     def rank(self, clf, X_unlabeled, num_queries=None):
         """Rank unlabeled instances as querying candidates.
@@ -81,9 +106,6 @@ class ActiveLearner(object):
 
         elif self.strategy in self._query_by_committee_frameworks:
             scores = self.__query_by_committee(clf, X_unlabeled)
-
-        elif self.strategy in self._representation_sampling_frameworks:
-            scores = self.__representation_sampling(clf, X_unlabeled)
 
         else: 
             raise ValueError(
@@ -130,6 +152,3 @@ class ActiveLearner(object):
                 divergence.append(entropy(consensus.T, y_out.T))
             
             return np.apply_along_axis(np.mean, 0, np.stack(divergence))
-
-    def __representation_sampling(self, clf, X_unlabeled):
-        probs = clf.predict_proba(X_unlabeled)

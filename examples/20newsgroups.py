@@ -69,5 +69,5 @@ if __name__ == '__main__':
              num_samples, np.mean(all_uncertainty_sampling_results['entropy'], axis=0), 'orange',
     )
     plt.legend(['Random Sampling', 'Least Confident', 'Max Margin', 'Entropy'], loc=4)
-    plt.ylabel('Accuracy'); plt.xlabel('Number of Queries'); plt.title('20 Newsgroups'); plt.ylim([0,1])
-    plt.savefig('misc/20newsgroups.jpg') 
+    plt.ylabel('Accuracy'); plt.xlabel('Number of Queries'); plt.title('20 Newsgroups - Uncertainty Sampling'); plt.ylim([0,1])
+    plt.savefig('misc/20newsgroups.jpg')
