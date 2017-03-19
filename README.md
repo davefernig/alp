@@ -7,7 +7,7 @@ I wrote this for my own learning purposes, but if you get something out of
 it, that's great.
 
 <p align="center">
-  <img src="misc/20ng.jpg" alt=""/>
+  <img src="misc/20newsgroups.jpg" alt=""/>
 </p>
 
 I did this while working through Burr Settles' excellent

@@ -1,7 +1,7 @@
 from __future__ import unicode_literals, division
 
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import fetch_mldata
@@ -10,6 +10,8 @@ import numpy as np
 import tempfile
 import sys
 import os
+
+from sklearn.neural_network import MLPClassifier
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from active_learning.active_learning import ActiveLearner
@@ -21,12 +23,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 X_labeled, X_unlabeled, y_labeled, y_oracle = train_test_split(
     X_train, y_train, test_size=0.999, random_state=42)
-
-clf = [
-    LogisticRegression(random_state=42),
-    RandomForestClassifier(),
-    SVC(probability=True),
-]
+clf=[]
+for i in range(10):
+    mlp = LogisticRegression()
+    clf.append(mlp)
 
 AL = ActiveLearner(strategy='average_kl_divergence')
 

@@ -37,7 +37,7 @@ if __name__ == '__main__':
         X_labeled, X_unlabeled, y_labeled, y_oracle = train_test_split(
             X_train, y_train, test_size=0.8)
 
-        for num_queries in (50, 100, 150, 200, 250):
+        for num_queries in (0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500):
             num_samples.append(num_queries)
 
             random_queries = np.random.choice(X_unlabeled.shape[0], num_queries, replace=False)
@@ -69,5 +69,5 @@ if __name__ == '__main__':
              num_samples, np.mean(all_uncertainty_sampling_results['entropy'], axis=0), 'orange',
     )
     plt.legend(['Random Sampling', 'Least Confident', 'Max Margin', 'Entropy'], loc=4)
-    plt.ylabel('Error Rate'); plt.xlabel('Number of Queries'); plt.title('20 Newsgroups') 
-    plt.show() 
+    plt.ylabel('Accuracy'); plt.xlabel('Number of Queries'); plt.title('20 Newsgroups'); plt.ylim([0,1])
+    plt.savefig('misc/20newsgroups.jpg') 
