@@ -11,8 +11,6 @@ import tempfile
 import sys
 import os
 
-from sklearn.neural_network import MLPClassifier
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from active_learning.active_learning import ActiveLearner
 
