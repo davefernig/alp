@@ -1,6 +1,6 @@
 from __future__ import unicode_literals, division
 
-from scipy.sparse import csc_matrix
+from scipy.sparse import csc_matrix, vstack
 from scipy.stats import entropy
 from collections import Counter
 import numpy as np
@@ -48,35 +48,6 @@ class ActiveLearner(object):
 
     def __init__(self, strategy='least_confident'):
         self.strategy = strategy
-
-    def rank_and_refit(self, clf, X_labeled, y_labeled, X_unlabeled, y_oracle,
-                       batch_size=10, num_batches=10)
-        """Iteratively rank unlabeled instances as querying candidates,
-        query the oracle, and refit the classifier.
-
-        Parameters
-        ----------
-        clf : classifier
-            Pre-trained probabilistic classifier conforming to the sklearn
-            interface.
-
-        X_unlabeled : sparse matrix, [n_samples, n_features]
-            Unlabeled training instances.
-
-        y_oracle : sparse matrix, [n_samples, n_features]
-            Unlabeled training instances.
-
-        Returns
-        -------
-        rankings : ndarray, shape (num_queries,)
-            cluster labels
-        """
-        clf.fit(X_labeled, y_labeled)
-        for _ in range(num_batches):
-            idx = self.rank(clf, X_unlabeled, batch_size)
-            X_augmented = vstack((X_labeled, X_unlabeled[idx, :]))
-            y_augmented = np.concatenate((y_labeled, y_oracle[idx]))
-            clf.fit(X_augmented, y_augmented)
 
     def rank(self, clf, X_unlabeled, num_queries=None):
         """Rank unlabeled instances as querying candidates.
@@ -135,10 +106,9 @@ class ActiveLearner(object):
 
         if self.strategy == 'vote_entropy':
             for model in clf:
-                y_out = model.predict(X_unlabeled)
+                y_out = map(int, model.predict(X_unlabeled))
                 preds.append(np.eye(num_classes)[y_out])
 
-            #TODO: verify the logic here...
             votes = np.apply_along_axis(np.sum, 0, np.stack(preds)) / C
             return np.apply_along_axis(entropy, 1, votes)
 

@@ -17,7 +17,7 @@ import numpy as np
 
 results_holder = {
     'average_kl_divergence': [],
-    #'vote_entropy': [],
+    'vote_entropy': [],
 }
 
 if __name__ == '__main__':
@@ -54,6 +54,8 @@ if __name__ == '__main__':
                     model.fit(X_labeled, y_labeled)
 
                 AL = ActiveLearner(strategy=strategy)
+                for model in clf:
+                    model.classes_ = np.arange(10)
                 idx = AL.rank(clf, X_unlabeled, num_queries)
                 X_augmented = np.concatenate((X_labeled, X_unlabeled[idx, :]))
                 y_augmented = np.concatenate((y_labeled, y_oracle[idx]))
@@ -74,8 +76,8 @@ if __name__ == '__main__':
     sns.set_style("darkgrid")
     plt.plot(num_samples, np.mean(all_random_sampling_results, axis=0), 'red', 
              num_samples, np.mean(all_query_by_commitee_results['average_kl_divergence'], axis=0), 'blue',
-             #num_samples, np.mean(all_query_by_commitee_results['vote_entropy'], axis=0), 'green',
+             num_samples, np.mean(all_query_by_commitee_results['vote_entropy'], axis=0), 'green',
     )
-    plt.legend(['Random Sampling', 'Average KL Divergence'], loc=4)
+    plt.legend(['Random Sampling', 'Average KL Divergence', 'Vote Entropy'], loc=4)
     plt.ylabel('Accuracy'); plt.xlabel('Number of Queries'); plt.title('MNIST - Query by commitee'); plt.ylim([0,1])
     plt.savefig('misc/mnist.jpg')
