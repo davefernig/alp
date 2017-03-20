@@ -3,8 +3,7 @@
 This is a python implementation of some popular active learning techniques,
 including uncertainty sampling and query-by-committee.
 It is built on top of numpy, scipy, and sklearn.
-I wrote this for my own learning purposes, but if you get something out of
-it, that's great.
+I wrote this for my own learning purposes; it is not particularly efficient.
 
 <p align="center">
   <img src="misc/plot.jpg" alt=""/>
