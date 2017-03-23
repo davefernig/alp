@@ -6,7 +6,7 @@ It is built on top of numpy, scipy, and sklearn.
 I wrote this for my own learning purposes; it is not particularly efficient.
 
 <p align="center">
-  <img src="misc/plot.jpg" alt=""/>
+  <img src="img/plot.jpg" alt=""/>
 </p>
 
 
